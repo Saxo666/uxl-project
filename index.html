@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UXL Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <h1>UXL Editor</h1>
+      <textarea id="codeEditor"></textarea>
+      <button class="run-btn" onclick="runUXL()">Run UXL</button>
+    </div>
+
+    <div class="panel">
+      <div class="title">Rendered Output</div>
+      <div id="app"></div>
+    </div>
+  </div>
+
+  <script src="example.js"></script>
+  <script src="parser.js"></script>
+  <script src="interpreter.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
