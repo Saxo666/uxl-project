@@ -1,0 +1,28 @@
+state num1 = 10
+state num2 = 5
+state total = 0
+
+text "Calculator Demo"
+text "Number 1: {num1}"
+text "Number 2: {num2}"
+text "Result: {total}"
+
+input num1
+input num2
+
+button "Add":
+    onClick => total = num1 + num2
+
+button "Subtract":
+    onClick => total = num1 - num2
+
+button "Multiply":
+    onClick => total = num1 * num2
+
+button "Divide":
+    onClick => total = num1 / num2
+
+if total > 50:
+    text "Result is greater than 50"
+else:
+    text "Result is 50 or lower"

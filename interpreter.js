@@ -73,6 +73,10 @@ const UXLInterpreter = (() => {
       }
       return;
     }
+
+    if (node.type === "for") {
+      executeForLoop(node, app, runtime);
+    }
   }
 
   function interpolateText(content, state) {
@@ -114,6 +118,65 @@ const UXLInterpreter = (() => {
     }
 
     return value;
+  }
+
+  function executeForLoop(node, app, runtime) {
+    const rangeValues = evaluateRangeArgs(node.rangeArgs, runtime.state);
+    const previousValue = Object.prototype.hasOwnProperty.call(runtime.state, node.variable)
+      ? runtime.state[node.variable]
+      : undefined;
+    const hadPreviousValue = Object.prototype.hasOwnProperty.call(runtime.state, node.variable);
+
+    for (const value of buildRange(rangeValues)) {
+      runtime.state[node.variable] = value;
+      executeNodes(node.body, app, runtime);
+    }
+
+    if (hadPreviousValue) {
+      runtime.state[node.variable] = previousValue;
+    } else {
+      delete runtime.state[node.variable];
+    }
+  }
+
+  function evaluateRangeArgs(rangeArgs, state) {
+    return rangeArgs.map((arg) => Number(evaluateExpression(arg, state)));
+  }
+
+  function buildRange(rangeValues) {
+    let start = 0;
+    let stop = 0;
+    let step = 1;
+
+    if (rangeValues.length === 1) {
+      [stop] = rangeValues;
+    } else if (rangeValues.length === 2) {
+      [start, stop] = rangeValues;
+    } else {
+      [start, stop, step] = rangeValues;
+    }
+
+    if (!Number.isFinite(start) || !Number.isFinite(stop) || !Number.isFinite(step)) {
+      throw new Error("range() arguments must evaluate to numbers");
+    }
+
+    if (step === 0) {
+      throw new Error("range() step cannot be 0");
+    }
+
+    const values = [];
+
+    if (step > 0) {
+      for (let value = start; value < stop; value += step) {
+        values.push(value);
+      }
+    } else {
+      for (let value = start; value > stop; value += step) {
+        values.push(value);
+      }
+    }
+
+    return values;
   }
 
   function tokenizeExpression(source) {

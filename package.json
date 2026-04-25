@@ -1,0 +1,88 @@
+{
+  "name": "uxl-language",
+  "displayName": "UXL Language",
+  "description": "VS Code language support for UXL files with syntax highlighting and snippets.",
+  "version": "0.0.2",
+  "publisher": "Saxo666",
+  "license": "MIT",
+  "main": "./extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Saxo666/uxl-project"
+  },
+  "homepage": "https://github.com/Saxo666/uxl-project",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": [
+    "onLanguage:uxl",
+    "onCommand:uxl.preview"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "uxl",
+    "language",
+    "dsl",
+    "web"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "uxl",
+        "aliases": [
+          "UXL",
+          "uxl"
+        ],
+        "extensions": [
+          ".uxl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "uxl",
+        "scopeName": "source.uxl",
+        "path": "./syntaxes/uxl.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "uxl.preview",
+        "title": "Run UXL Preview",
+        "category": "UXL"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "uxl",
+        "path": "./snippets/uxl.json"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "uxl.preview",
+          "when": "resourceExtname == .uxl",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "uxl.preview",
+          "when": "editorLangId == uxl"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "vsce": "^2.15.0"
+  }
+}
